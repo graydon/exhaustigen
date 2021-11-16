@@ -89,15 +89,15 @@ the innermost unfinished loop is in the stack.
 What makes it special is that in normal imperative code, each loop runs to
 completion, they don't dynamically compose. In other words if loop A runs X
 iterations and loop B runs Y iterations, you can't easily write a loop C
-containing one step from A followed by one step from B, where C then runs X*Y
-times over the product space. You have to buffer the results of A and B in
-memory, or manually interleave the loop-bodies, or .. somehow externalize their
-loop counters. Which is what this library does, in a very general fashion. So
-you can stick calls to `gen_perm()` or `gen_subset()` (each defined in terms of
-`gen()`) in the middle of your test, and the set of nested loops that will be
-revisited on the next outermost `is_done()` dynamically expands to include the
-space of permutations (or whatever) implied by all the unfinished calls to
-`gen()`. It all Just Works.
+containing one step from A followed by one cycle through B, where C then runs
+X*Y times over the nested-loop (product) space. You have to buffer the results
+of A and B in memory, or manually nest the loop-bodies, or .. somehow
+externalize their loop counters. Which is what this library does, in a very
+general fashion. So you can stick calls to `gen_perm()` or `gen_subset()` (each
+defined in terms of `gen()`) in the middle of your test, and the set of nested
+loops that will be revisited on the next outermost `is_done()` dynamically
+expands to include the space of permutations (or whatever) implied by all the
+unfinished calls to `gen()`. It all Just Works.
 
 (You could do something gnarly with coroutines or higher order functions as
 well, but this approach is far simpler. This README is larger than the entire
